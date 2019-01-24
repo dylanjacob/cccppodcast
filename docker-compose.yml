@@ -1,0 +1,28 @@
+version: "3.0"
+
+services:
+    rsspy:
+        build: ./services/rsspy/
+        volumes:
+            - './services/rsspy:/usr/src/app'
+        ports:
+            - 5001:5000
+        networks:
+            - python
+        environment:
+            - FLASK_APP=lib/__init__.py
+
+    nginx:
+        build: ./services/nginx/
+        expose:
+            - 443
+        restart: always
+        depends_on:
+            - rsspy
+        networks:
+            - python
+            - server
+
+networks:
+    python:
+    server: 
