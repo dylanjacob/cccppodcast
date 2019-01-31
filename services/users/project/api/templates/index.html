@@ -15,23 +15,18 @@
     <div class="container">
       <div class="col-4">
         <br>
-        <h1>All Episodes</h1>
+        <h1>All Users</h1>
         <hr><br>
         <form action="/" method="POST">
           <div class="form-group input-group">
             <input
-            name="title" class="form-control"
-            type="text" placeholder="Enter a title" required>
+            name="username" class="form-control"
+            type="text" placeholder="Enter a username" required>
           </div>
           <div class="form-group input-group">
             <input
-            name="summary" class="form-control"
-            type="textarea" placeholder="Enter an summary" required>
-          </div>
-          <div class="form-group input-group">
-            <input
-            name="media" class="form-control"
-            type="text" placeholder="Enter the URL for the media" required>
+            name="email" class="form-control"
+            type="email" placeholder="Enter an email" required>
           </div>
           <input
           type="submit" class="btn btn-primary btn-block"
@@ -42,26 +37,24 @@
         <hr>
         <table class="table">
           <thead>
-            <th>Created</th>
-            <th>Title</th>
-            <th>Summary</th>
-            <th>Media URL</th>
+            <th>ID</th>
+            <th>Username</th>
+            <th>Email</th>
             <th>Active?</th>
           </thead>
           <tbody>
-            {% if episodes %}
-              {% for episode in episodes %}
+            {% if users %}
+              {% for user in users %}
                 <tr>
-                  <td>{{episode.created_date}}</td>
-                  <td>{{episode.title}}</td>
-                  <td>{{episode.summary}}</td>
-                  <td>{{episode.media}}</td>
-                  <td>{{episode.active}}</td>
+                  <td>{{user.id}}</td>
+                  <td>{{user.username}}</td>
+                  <td>{{user.email}}</td>
+                  <td>{{user.active}}</td>
                 </tr>
               {% endfor %}
             {% else %}
               <tr>
-                <td colspan="5">No episodes!</td>
+                <td colspan="5">No users!</td>
               </tr>
             {% endif %}
           </tbody>
