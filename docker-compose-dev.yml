@@ -1,0 +1,52 @@
+version: "3.0"
+
+services:
+    rsspy:
+        build:
+            context: ./services/rsspy
+            dockerfile: Dockerfile-dev
+        volumes:
+            - './services/rsspy:/usr/src/app'
+        ports:
+            - 5001:5000
+        networks:
+            - app
+            - database
+        environment:
+            - FLASK_ENV=development
+            - APP_SETTINGS=lib.config.DevelopmentConfig
+            - DATABASE_URL=postgres://postgres:postgres@episodes-db:5432/episodes_dev
+            - DATABASE_TEST_URL=postgres://postgres:postgres@episodes-db:5432/episodes_test
+        depends_on:
+            - episodes-db
+
+    episodes-db:
+        build:
+            context: ./services/rsspy/lib/db
+            dockerfile: Dockerfile
+        ports:
+            - 5436:5432
+        networks:
+            - database
+        environment:
+            - POSTGRES_USER=postgres
+            - POSTGRES_PASSWORD=postgres
+
+    nginx:
+        build: 
+            context: ./services/nginx
+            dockerfile: Dockerfile-dev
+        ports:
+            - 80:80
+            - 443:443
+        restart: always
+        depends_on:
+            - rsspy
+        networks:
+            - app
+            - server
+
+networks:
+    app:
+    server: 
+    database:

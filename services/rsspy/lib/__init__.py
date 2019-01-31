@@ -1,7 +1,13 @@
 # services/rsspy/lib/__init__.py
 
-from flask import Flask, jsonify
-from flask_cors import CORS
+
+import os
+
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+
+
+db = SQLAlchemy()
 
 
 def create_app(script_info=None):
@@ -9,17 +15,16 @@ def create_app(script_info=None):
     # instantiate app
     app = Flask(__name__)
 
-    CORS(app)
+    app_settings = os.getenv('APP_SETTINGS')
+    app.config.from_object(app_settings)
 
-    @app.route('/ping', methods=['GET'])
-    def ping_pong():
-        return jsonify({
-            'status': 'success',
-            'message': 'pong!'
-        })
+    db.init_app(app)
+
+    from lib.api.episodes import episodes_blueprint
+    app.register_blueprint(episodes_blueprint)
 
     @app.shell_context_processor
     def ctx():
-        return {'app': app}
+        return {'app': app, 'db': db}
 
     return app
