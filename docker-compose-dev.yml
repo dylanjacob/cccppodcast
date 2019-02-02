@@ -1,36 +1,36 @@
 version: "3.0"
 
 services:
-    rsspy:
-        build:
-            context: ./services/rsspy
-            dockerfile: Dockerfile-dev
-        volumes:
-            - './services/rsspy:/usr/src/app'
-        ports:
-            - 5001:5000
-        networks:
-            - app
-            - rssdb
-        environment:
-            - FLASK_ENV=development
-            - APP_SETTINGS=lib.config.DevelopmentConfig
-            - DATABASE_URL=postgres://postgres:postgres@episodes-db:5432/episodes_dev
-            - DATABASE_TEST_URL=postgres://postgres:postgres@episodes-db:5432/episodes_test
-        depends_on:
-            - episodes-db
+    # rsspy:
+    #     build:
+    #         context: ./services/rsspy
+    #         dockerfile: Dockerfile-dev
+    #     volumes:
+    #         - './services/rsspy:/usr/src/app'
+    #     ports:
+    #         - 5001:5000
+    #     networks:
+    #         - app
+    #         - rssdb
+    #     environment:
+    #         - FLASK_ENV=development
+    #         - APP_SETTINGS=lib.config.DevelopmentConfig
+    #         - DATABASE_URL=postgres://postgres:postgres@episodes-db:5432/episodes_dev
+    #         - DATABASE_TEST_URL=postgres://postgres:postgres@episodes-db:5432/episodes_test
+    #     depends_on:
+    #         - episodes-db
 
-    episodes-db:
-        build:
-            context: ./services/rsspy/lib/db
-            dockerfile: Dockerfile
-        ports:
-            - 5436:5432
-        networks:
-            - rssdb
-        environment:
-            - POSTGRES_USER=postgres
-            - POSTGRES_PASSWORD=postgres
+    # episodes-db:
+    #     build:
+    #         context: ./services/rsspy/lib/db
+    #         dockerfile: Dockerfile
+    #     ports:
+    #         - 5436:5432
+    #     networks:
+    #         - rssdb
+    #     environment:
+    #         - POSTGRES_USER=postgres
+    #         - POSTGRES_PASSWORD=postgres
 
     users:
         build:
@@ -39,8 +39,9 @@ services:
         volumes:
             - './services/users:/usr/src/app'
         ports:
-            - 5002:5000
+            - 5001:5000
         networks:
+            - users
             - users-db
         environment:
             - FLASK_ENV=development
@@ -62,6 +63,23 @@ services:
             - POSTGRES_USER=postgres
             - POSTGRES_PASSWORD=postgres
 
+    client:
+        build:
+            context: ./services/client
+            dockerfile: Dockerfile-dev
+        volumes:
+            - './services/client:/usr/src/app'
+            - '/usr/src/app/node_modules'
+        ports:
+            - 3007:3000
+        environment:
+            - NODE_ENV=development
+            - REACT_APP_USERS_SERVICE_URL=${REACT_APP_USERS_SERVICE_URL}
+        depends_on:
+            - users
+        networks:
+            - client
+
     nginx:
         build: 
             context: ./services/nginx
@@ -71,13 +89,16 @@ services:
             - 443:443
         restart: always
         depends_on:
-            - rsspy
+            - users
+            - client
         networks:
-            - app
-            - server
+            - users
+            - client
 
 networks:
     app:
     server: 
     rssdb:
     users-db:
+    users:
+    client:
