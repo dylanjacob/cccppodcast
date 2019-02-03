@@ -6,7 +6,8 @@ exports[`NavBar renders a snapshot properly 1`] = `
 >
   <a
     className="navbar-brand"
-    href="#"
+    href="/"
+    onClick={[Function]}
   >
     <strong
       className="navbar-item"
