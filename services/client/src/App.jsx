@@ -105,22 +105,10 @@ class App extends Component {
           <div className="container">
             <Switch>
               <Route exact path='/' render={() => (
-                <div>
-                  <div className="row">
-                    <h1 className="title">Users</h1>
-                  </div>
-                  <hr />
-                  <div className="row">
-                    <div className="col-6">
-                      <h2>Add a User</h2>
-                      <AddUser username={this.state.username} email={this.state.email} addUser={this.addUser} handleChange={this.handleChange}/>
-                    </div>
-                    <div className="col-6">
-                      <h2>All Users</h2>
-                      <UsersList users={this.state.users}/>
-                    </div>
-                  </div>
-                </div>
+                <UsersList
+                  users={this.state.users}
+                  isAuthenticated={this.state.isAuthenticated}
+                />
               )} />
               <Route exact path='/about' component={About}/>
               <Route exact path='/register' render={() => (

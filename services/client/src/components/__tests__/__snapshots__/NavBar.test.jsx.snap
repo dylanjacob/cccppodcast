@@ -57,17 +57,6 @@ exports[`NavBar renders a snapshot properly 1`] = `
           About
         </a>
       </li>
-      <li
-        className="nav-item"
-      >
-        <a
-          className="nav-link"
-          href="/status"
-          onClick={[Function]}
-        >
-          User Status
-        </a>
-      </li>
     </ul>
     <ul
       className="navbar-nav mr-auto"
@@ -92,17 +81,6 @@ exports[`NavBar renders a snapshot properly 1`] = `
           onClick={[Function]}
         >
           Log In
-        </a>
-      </li>
-      <li
-        className="nav-item"
-      >
-        <a
-          className="nav-link"
-          href="/logout"
-          onClick={[Function]}
-        >
-          Log Out
         </a>
       </li>
     </ul>
