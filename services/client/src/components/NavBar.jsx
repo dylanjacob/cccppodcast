@@ -18,20 +18,28 @@ const NavBar = (props) => (
         <li className="nav-item">
           <Link to="/about" className="nav-link">About</Link>
         </li>
+        {props.isAuthenticated &&
         <li className="nav-item">
           <Link to="/status" className="nav-link">User Status</Link>
         </li>
+        }
       </ul>
       <ul className="navbar-nav mr-auto">
+        {!props.isAuthenticated &&
         <li className="nav-item">
           <Link to="/register" className="nav-link">Register</Link>
         </li>
+        }
+        {!props.isAuthenticated &&
         <li className="nav-item">
           <Link to="/login" className="nav-link">Log In</Link>
         </li>
+        }
+        {props.isAuthenticated &&
         <li className="nav-item">
           <Link to="/logout" className="nav-link">Log Out</Link>
         </li>
+        }
       </ul>
     </div>
   </nav>
