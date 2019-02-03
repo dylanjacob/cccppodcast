@@ -44,8 +44,16 @@ def test():
 @cli.command('seed_db')
 def seed_db():
     """Seeds the database."""
-    db.session.add(User(username='djacob', email="dylan.jacob@bubblecore.net"))
-    db.session.add(User(username='keven', email="kwrussel@gmail.com"))
+    db.session.add(User(
+        username='djacob',
+        email="dylan.jacob@bubblecore.net",
+        password='greaterthaneight'
+    ))
+    db.session.add(User(
+        username='kevin',
+        email="kwrussel@gmail.com",
+        password='greaterthaneight'
+    ))
     db.session.commit()
 
 
