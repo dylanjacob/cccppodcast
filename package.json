@@ -1,0 +1,6 @@
+{
+  "name": "cccppodcast",
+  "devDependencies": {
+    "cypress": "^3.1.4"
+  }
+}
